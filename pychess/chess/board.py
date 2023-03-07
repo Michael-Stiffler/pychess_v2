@@ -145,6 +145,9 @@ class Board:
     def get_bit(self, board, square):
         return board & (self.UNSIGNED_LONG_1 << np.ulonglong(square))
 
+    def get_printable_board(self):
+        return self.printable_board
+
     def pop_bit(self, board, index):
         return board ^ (self.UNSIGNED_LONG_1 << index) if self.get_bit(board, index) else 0
 
