@@ -1,6 +1,7 @@
 import numpy as np
 from board import Board
 from visuals import Visuals
+from move_generator import MoveGenerator
 import sys
 import argparse
 import pygame as py
@@ -14,12 +15,18 @@ def main():
     need_to_calculate_moves = True
     holding_piece = False
     user_color = 0
+    white = 0
+    black = 1
     clock = py.time.Clock()
+    board = Board()
+    move_generator = MoveGenerator(board)
 
     args = get_args()
+    if args.fen:
+        board.parse_fen(args.fen)
+    else:
+        board.parse_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 
-    board = Board()
-    board.parse_fen(args.fen)
     board.set_printable_board()
 
     visuals = Visuals()
@@ -31,6 +38,10 @@ def main():
     while running:
         mouse_pos = py.mouse.get_pos()
         visuals.show_square(mouse_pos)
+
+        if need_to_calculate_moves:
+            move_generator.calculate_moves(white)
+            need_to_calculate_moves = False
 
         if holding_piece:
             visuals.draw_board()

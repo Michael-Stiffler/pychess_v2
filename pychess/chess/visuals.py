@@ -54,7 +54,6 @@ class Visuals():
 
     def draw_pieces(self, board):
         self.board = board
-        print(board)
         number_to_name_dict = {
             "8": 'bB',
             "11": 'bK',
@@ -76,7 +75,6 @@ class Visuals():
                 piece = board[position]
 
                 if piece is not None:
-                    print(number_to_name_dict[str(piece)])
                     self.display.blit(self.IMAGES[number_to_name_dict[str(piece)]], py.Rect(
                         y * self.SIZE, x * self.SIZE, self.SIZE, self.SIZE))
 

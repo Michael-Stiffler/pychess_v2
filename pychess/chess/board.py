@@ -151,6 +151,9 @@ class Board:
     def pop_bit(self, board, index):
         return board ^ (self.UNSIGNED_LONG_1 << index) if self.get_bit(board, index) else 0
 
+    def get_white_knight_board(self):
+        return self.white_knights
+
     def print_bitboard(self, board):
 
         # Used for debugging purposes
