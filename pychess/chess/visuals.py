@@ -1,6 +1,7 @@
 import pygame as py
 import os
 import math
+from piece import Piece
 
 # constants. self.SIZE is pixel LENGTH of each square on the board and LENGTH is how many squares per column or row.
 
@@ -54,28 +55,18 @@ class Visuals():
 
     def draw_pieces(self, board):
         self.board = board
-        number_to_name_dict = {
-            "8": 'bB',
-            "11": 'bK',
-            "7": 'bN',
-            "6": 'bP',
-            "10": 'bQ',
-            "9": 'bR',
-            "2": 'wB',
-            "5": 'wK',
-            "1": 'wN',
-            "0": 'wP',
-            "4": 'wQ',
-            "3": 'wR'
-        }
+
+        # Using this because I can look up the index of the piece I want from the piece enum
+        piece_file_names = [
+            'wP', 'wN', 'wB', 'wR', 'wQ', 'wK', 'bP', 'bN', 'bB', 'bR', 'bQ', 'bK'
+        ]
 
         for x in range(self.LENGTH):
             for y in range(self.LENGTH):
                 position = (8 * x) + y
                 piece = board[position]
-
-                if piece is not None:
-                    self.display.blit(self.IMAGES[number_to_name_dict[str(piece)]], py.Rect(
+                if piece:
+                    self.display.blit(self.IMAGES[piece_file_names[piece.value]], py.Rect(
                         y * self.SIZE, x * self.SIZE, self.SIZE, self.SIZE))
 
     def drag_piece(self, mouse_pos, board):

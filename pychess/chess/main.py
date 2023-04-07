@@ -2,6 +2,7 @@ import numpy as np
 from board import Board
 from visuals import Visuals
 from move_generator import MoveGenerator
+from fen import Fen
 import sys
 import argparse
 import pygame as py
@@ -18,18 +19,20 @@ def main():
     white = 0
     black = 1
     clock = py.time.Clock()
+
     board = Board()
-    move_generator = MoveGenerator(board)
+    move_generator = MoveGenerator()
+    fen = Fen()
+    visuals = Visuals()
 
     args = get_args()
     if args.fen:
-        board.parse_fen(args.fen)
+        fen.parse_fen(args.fen)
     else:
-        board.parse_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+        fen.parse_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 
-    board.set_printable_board()
-
-    visuals = Visuals()
+    board.set_board(fen.get_parsed_fen_piece_board())
+    move_generator.init(fen.get_parsed_fen())
     visuals.load_pieces()
     visuals.draw_board()
     visuals.draw_pieces(board.get_printable_board())
